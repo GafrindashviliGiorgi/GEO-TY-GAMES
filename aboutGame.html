@@ -5,161 +5,418 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>თამაშის შესახებ</title>
     <style>
-        body {
-            margin: 0;
-            background-color: #f5f5f5;
+        :root {
+            --primary-color: #4361ee;
+            --primary-hover: #3a56d4;
+            --success-color: #4caf50;
+            --success-hover: #43a047;
+            --danger-color: #e63946;
+            --danger-hover: #d32f2f;
+            --background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --text-primary: #333;
+            --text-secondary: #555;
+            --border-radius: 12px;
+            --shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--background);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+            width: auto;
+            height: auto;
+            padding: 10px 15px;
+            font-size: 16px;
+            background-color: rgba(255, 255, 255, 0.8);
+            color: var(--text-primary);
+            box-shadow: var(--shadow);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .back-button i {
+            font-size: 18px;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--text-primary);
+            margin-bottom: 0.8rem;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: 1.2rem;
+            font-weight: 500;
+        }
+
+        .content-container {
+            text-align: center;
+            padding: 30px;
+            max-width: 900px;
+            margin: 40px auto;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
         .k1 {
             display: flex;
             gap: 150px;
-            margin: 0 auto;
+            margin: 30px auto;
             justify-content: center;
             align-items: center;
         }
+
         button {
             width: 150px;
             height: 70px; 
             font-size: 35px;
-            border-radius: 10px;
-            transition: 0.5s;
+            border-radius: var(--border-radius);
+            border: none;
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
         }
+
+        button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        button:hover::after {
+            transform: translateX(0);
+        }
+
         button:hover {
-            transition: 0.5s;
-            background-color: aqua;
+            background-color: var(--primary-hover);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
         }
+
+        button:active {
+            transform: translateY(2px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+
         .k4 {
-            display: flex;
             display: none;
+            gap: 150px;
+            margin: 30px auto;
+            justify-content: center;
+            align-items: center;
         }
+
+        .k5 {
+            background-color: var(--success-color);
+        }
+
+        .k5:hover {
+            background-color: var(--success-hover);
+        }
+
+        .k6 {
+            background-color: var(--danger-color);
+        }
+        
         .k6:hover {
-            display: none;
+            background-color: var(--danger-hover);
         }
+
         .k8 {
             width: 300px;
             height: 70px; 
             font-size: 35px;
-            border-radius: 10px;
-            transition: 0.5s;
+            border-radius: var(--border-radius);
             display: none;
-            justify-self: center;
+            margin: 30px auto;
+            background-color: var(--success-color);
+            animation: pulse 2s infinite;
+        }
+
+        .k8:hover {
+            background-color: var(--success-hover);
+            animation: none;
         }
         
+        .feedback-animation {
+            animation: glow 2s ease-in-out;
+            font-weight: bold;
+            color: var(--success-color);
+            font-size: 1.8rem;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes glow {
+            0% { text-shadow: 0 0 5px rgba(76, 175, 80, 0); }
+            50% { text-shadow: 0 0 20px rgba(76, 175, 80, 0.8); }
+            100% { text-shadow: 0 0 5px rgba(76, 175, 80, 0); }
+        }
 
         @media (max-width: 768px) {
-            .k1 {
-                flex-direction: column;
-                gap: 20px;
+            h1 {
+                font-size: 2rem;
             }
+
+            h3 {
+                font-size: 1.2rem;
+            }
+
+            .k1, .k4 {
+                flex-direction: row;
+                gap: 30px;
+                margin: 20px auto;
+            }
+
             button {
-                width: 120px;
+                width: 130px;
                 height: 60px;
-                font-size: 30px;
+                font-size: 28px;
             }
+
             .k8 {
-                width: 250px;
+                width: 260px;
                 height: 60px;
-                font-size: 30px;
+                font-size: 28px;
+            }
+
+            .content-container {
+                padding: 20px;
+                margin: 20px auto;
             }
         }
-        
 
         @media (max-width: 480px) {
             body {
-                padding: 10px;
+                padding: 15px;
             }
-            .k1 {
+
+            h1 {
+                font-size: 1.7rem;
+            }
+
+            h3 {
+                font-size: 1.1rem;
+                margin-bottom: 1rem;
+            }
+
+            .content-container {
+                padding: 15px;
+                border-radius: 10px;
+            }
+
+            .k1, .k4 {
                 flex-direction: column;
                 gap: 15px;
             }
+
             button {
-                width: 100px;
+                width: 120px;
                 height: 50px;
-                font-size: 25px;
+                font-size: 22px;
             }
+
             .k8 {
                 width: 200px;
                 height: 50px;
-                font-size: 25px;
+                font-size: 22px;
             }
-            h1, h3 {
-                font-size: 20px;
+            
+            .back-button {
+                top: 10px;
+                left: 10px;
+                font-size: 14px;
+                padding: 8px 12px;
             }
         }
-        
+
+        @media (max-width: 320px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            h3 {
+                font-size: 1rem;
+            }
+
+            button {
+                width: 100px;
+                height: 45px;
+                font-size: 18px;
+            }
+
+            .k8 {
+                width: 180px;
+                height: 45px;
+                font-size: 18px;
+            }
+        }
     </style>
 </head>
 <body>
-    <div style="text-align: center;">
-        <h1>თამაშის შესახებ</h1>
-        <h3>ამ თამაშში შემოგხვდება დიდი თავგადასავლები და მრავალი სირთულე, რომელიც უნდა დაძლიო.</h3>
-        <h3>ასევე, დაგხვდება რამდენიმე სახალისო ელემენტი, როგორიცაა მიმები.</h3>
-        <h1>რატომ უნდა ითამაშო ეს თამაში?</h1>
-        <h3>ეს თამაში გაგახალისებს და მოგიყვანს უამრავ ახალ თავგადასავალში. </h3>
-        <h3>მისი მიმებითა და სხვა სასიამოვნო ელემენტებით, იგი ნამდვილად გააუმჯობესებს განწყობას.</h3>
-    </div>
-    <br>
-
-    <div style="text-align: center;">
-    <h1 class="k3">ჯერ კიდე არ გითამაშია?</h1>
-
-        <div class="k1">
-            <button class="first" onclick="click1()">კი</button> 
-            <button class="secend" onclick="click2()">არა</button>
+    <button class="back-button" id="back">← უკან დაბრუნება</button>
+    
+    <div class="content-container">
+        <div class="section">
+            <h1>თამაშის შესახებ</h1>
+            <h3>ამ თამაშში შემოგხვდება დიდი თავგადასავლები და მრავალი სირთულე, რომელიც უნდა დაძლიო.</h3>
+            <h3>ასევე, დაგხვდება რამდენიმე სახალისო ელემენტი, როგორიცაა მიმები.</h3>
         </div>
-
-
-
-
-
-        <h1 class="k2"></h1>
-
-        <div class="k4">
-            <button class="k5">კი</button>
-            <button class="k6">არა</button>
-        </div>
-        <h1 class="k7"></h1>
         
+        <div class="section">
+            <h1>რატომ უნდა ითამაშო ეს თამაში?</h1>
+            <h3>ეს თამაში გაგახალისებს და მოგიყვანს უამრავ ახალ თავგადასავალში.</h3>
+            <h3>მისი მიმებითა და სხვა სასიამოვნო ელემენტებით, იგი ნამდვილად გააუმჯობესებს განწყობას.</h3>
+        </div>
+    
+        <div>
+            <h1 class="k3">ჯერ კიდე არ გითამაშია?</h1>
 
-        <button class="k8">თამაშის დაწყება</button>
+            <div class="k1">
+                <button class="first" onclick="click1()">კი</button> 
+                <button class="secend" onclick="click2()">არა</button>
+            </div>
+
+            <h1 class="k2"></h1>
+
+            <div class="k4">
+                <button class="k5">კი</button>
+                <button class="k6" onclick="clickNo()">არა</button>
+            </div>
+            
+            <h1 class="k7"></h1>
+            
+            <button class="k8">თამაშის დაწყება</button>
+        </div>
     </div>
-
 
     <script>
-        let big = document.querySelector(".k1")
-        let h1 = document.querySelector(".k2")
-        let k3 = document.querySelector(".k3")
-        let k4 = document.querySelector(".k4")
-
-        let k5 = document.querySelector(".k5")
-        let k6 = document.querySelector(".k6")
-
-        let k7 = document.querySelector(".k7")
-
-        let k8 = document.querySelector(".k8")
-
+        let big = document.querySelector(".k1");
+        let h1 = document.querySelector(".k2");
+        let k3 = document.querySelector(".k3");
+        let k4 = document.querySelector(".k4");
+        let k5 = document.querySelector(".k5");
+        let k6 = document.querySelector(".k6");
+        let k7 = document.querySelector(".k7");
+        let k8 = document.querySelector(".k8");
+        
         function click1() {
-            big.style.display = "none"
-            h1.innerHTML = "მოგეწონა?"
-            k3.style.display = "none"
-            k4.style.display = "block"
-            k4.style.display = "flex"
-            k4.style.gap = "150px"
-            k4.style.justifyContent = "center"
-            k4.style.alignItems = "center"
+            big.style.display = "none";
+            h1.innerHTML = "მოგეწონა?";
+            k3.style.display = "none";
+            k4.style.display = "flex";
+            h1.style.animation = "fadeIn 0.5s ease-in-out";
         }
-
-        k5.addEventListener("click" , function() {
-            k7.innerHTML = "მადლობა მოტივაციისთვის"
-        })
-
+        
         function click2() {
-            big.style.display ="none" 
-            k8.style.display="block"
+            big.style.display = "none";
+            k8.style.display = "block";
         }
-
+        
+        function clickNo() {
+            k6.style.position = "relative";
+            
+            const randomX = Math.floor(Math.random() * 200) - 100;
+            const randomY = Math.floor(Math.random() * 200) - 100;
+            
+            k6.style.transform = `translate(${randomX}px, ${randomY}px)`;
+        }
+        
+        k5.addEventListener("click", function() {
+            k7.innerHTML = "მადლობა მოტივაციისთვის";
+            k7.classList.add("feedback-animation");
+            
+            k4.style.display = "none";
+            
+            setTimeout(() => {
+                k8.style.display = "block";
+            }, 1000);
+        });
+        
         k8.addEventListener("click", function() {
-            window.location.href="levelsdesk.html.html"
-        })
+            window.location.href = "levelsdesk.html";
+        });
+        
+        document.addEventListener("DOMContentLoaded", function() {
+            document.body.style.opacity = "0";
+            setTimeout(() => {
+                document.body.style.transition = "opacity 0.8s ease";
+                document.body.style.opacity = "1";
+            }, 100);
+        });
+
+        let back = document.querySelector("#back").addEventListener("click", function() {window.location.href = "index.html"})
     </script>
 </body>
 </html>
