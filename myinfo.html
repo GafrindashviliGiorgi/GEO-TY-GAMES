@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ჩემი პორტფოლიო</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-top: 30px;
+            color: #2f4f4f;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: fadeInUp 1.5s ease-out;
+        }
+        
+        .content {
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .profile-photo-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        .profile-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 4px solid #2f4f4f;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            animation: bounceIn 1.5s ease-out;
+        }
+        
+        .about-text, .extra-info {
+            font-size: 1.1em;
+            max-width: 800px;
+            margin: 15px auto;
+            padding: 10px;
+            line-height: 1.6;
+            color: #555;
+            text-align: left;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+            gap: 20px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #333;
+            font-size: 1em;
+            font-weight: bold;
+            position: relative;
+            transition: transform 0.3s, color 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: #fff;
+            transform: scale(1.1);
+        }
+        
+        .social-logo {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+            border-radius: 50%;
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .back-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 8px 12px;
+            background-color: #2f4f4f;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .back-button:hover {
+            background-color: #1e3333;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes bounceIn {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+            
+            .profile-photo {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .about-text, .extra-info {
+                font-size: 1em;
+                padding: 8px;
+            }
+            
+            .social-logo {
+                width: 35px;
+                height: 35px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .profile-photo {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .about-text, .extra-info {
+                font-size: 0.9em;
+            }
+            
+            .social-logo {
+                width: 30px;
+                height: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <a class="back-button" href="index.html">← უკან</a>
+        <h1>ჩემი სახელია გიორგი გაფრინდაშვილი</h1>
+        <div class="profile-photo-container">
+            <img src="myPrime.jpg" alt="გიორგი გაფრინდაშვილი" class="profile-photo">
+            <img src="rapergio.jpg" alt="მეორე ფოტო" class="profile-photo">
+            <img src="gogia.jpg" alt="მესამე ფოტო" class="profile-photo">
+        </div>
+        <p class="about-text">ვარ 15 წლის, დაინტერესებული ვარ პროგრამირებით, კონკრეტულად კი ვებ დეველოპმენტით...</p>
+        <p class="extra-info">ტექნოლოგიით დავინტერესდი 8 წლის ასაკში ხოლო 13წლის ასაკში დავიწყე სწავლა</p>
+        <div class="social-links">
+            <a href="#"><img src="instagram.png" alt="Instagram" class="social-logo">Instagram</a>
+            <a href="https://www.tiktok.com/@naxalovkeli_"><img src="tikTok.png" alt="TikTok" class="social-logo">TikTok</a>
+            <a href="https://www.youtube.com/@Gio-gafro"><img src="youtube.png" alt="YouTube" class="social-logo">YouTube</a>
+        </div>
+    </div>
+</body>
+</html>

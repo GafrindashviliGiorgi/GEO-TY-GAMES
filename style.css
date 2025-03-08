@@ -1,0 +1,140 @@
+body {
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    background-color: #f7f7f7;
+    padding: 20px;
+    margin: 0;
+    color: #333;
+}
+
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    padding: 12px 20px;
+    border: none;
+    cursor: pointer;
+    margin: 10px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+
+.k1 {
+    font-size: 22px;
+    font-weight: bold;
+    color: #2e2e2e;
+    opacity: 0;
+    animation: fadeIn 2s ease-in-out forwards 1s;
+}
+
+.warning-title {
+    font-size: 26px;
+    color: red;
+    opacity: 0;
+    animation: fadeIn 2s ease-in-out forwards 2s;
+}
+
+.warning-text {
+    font-size: 18px;
+    color: #e67e22;
+    opacity: 0;
+    animation: fadeIn 2s ease-in-out forwards 3s;
+}
+
+
+.answer-btn {
+    font-size: 18px;
+    background-color: #3498db;
+    border-radius: 5px;
+    padding: 14px 28px;
+    opacity: 0;
+    animation: fadeIn 2s ease-in-out forwards 4s;
+}
+
+.answer-btn:hover {
+    background-color: #2980b9;
+    transform: scale(1.05);
+}
+
+
+.info-btn {
+    font-size: 18px;
+    background-color: #e74c3c;
+    border-radius: 5px;
+    padding: 14px 28px;
+    opacity: 0;
+    animation: fadeIn 1s ease-in-out forwards 1s;
+}
+
+.info-btn:hover {
+    background-color: #c0392b;
+    transform: scale(1.05);
+}
+
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    20% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@media (max-width: 1024px) {
+    .k1 {
+        font-size: 20px;
+    }
+
+    .warning-title {
+        font-size: 24px;
+    }
+
+    .warning-text {
+        font-size: 17px;
+    }
+
+    .answer-btn, .info-btn {
+        font-size: 16px;
+        padding: 12px 24px;
+    }
+}
+
+
+@media (max-width: 767px) {
+    body {
+        padding: 10px;
+    }
+
+    .k1 {
+        font-size: 18px;
+    }
+
+    .warning-title {
+        font-size: 22px;
+    }
+
+    .warning-text {
+        font-size: 16px;
+    }
+
+    button {
+        font-size: 14px;
+        padding: 10px 18px;
+    }
+
+    .answer-btn, .info-btn {
+        font-size: 14px;
+        padding: 10px 20px;
+    }
+}

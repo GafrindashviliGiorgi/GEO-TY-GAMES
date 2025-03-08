@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>თამაშის შესახებ</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+        .k1 {
+            display: flex;
+            gap: 150px;
+            margin: 0 auto;
+            justify-content: center;
+            align-items: center;
+        }
+        button {
+            width: 150px;
+            height: 70px; 
+            font-size: 35px;
+            border-radius: 10px;
+            transition: 0.5s;
+        }
+        button:hover {
+            transition: 0.5s;
+            background-color: aqua;
+        }
+        .k4 {
+            display: flex;
+            display: none;
+        }
+        .k6:hover {
+            display: none;
+        }
+        .k8 {
+            width: 300px;
+            height: 70px; 
+            font-size: 35px;
+            border-radius: 10px;
+            transition: 0.5s;
+            display: none;
+            justify-self: center;
+        }
+        
+
+        @media (max-width: 768px) {
+            .k1 {
+                flex-direction: column;
+                gap: 20px;
+            }
+            button {
+                width: 120px;
+                height: 60px;
+                font-size: 30px;
+            }
+            .k8 {
+                width: 250px;
+                height: 60px;
+                font-size: 30px;
+            }
+        }
+        
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            .k1 {
+                flex-direction: column;
+                gap: 15px;
+            }
+            button {
+                width: 100px;
+                height: 50px;
+                font-size: 25px;
+            }
+            .k8 {
+                width: 200px;
+                height: 50px;
+                font-size: 25px;
+            }
+            h1, h3 {
+                font-size: 20px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div style="text-align: center;">
+        <h1>თამაშის შესახებ</h1>
+        <h3>ამ თამაშში შემოგხვდება დიდი თავგადასავლები და მრავალი სირთულე, რომელიც უნდა დაძლიო.</h3>
+        <h3>ასევე, დაგხვდება რამდენიმე სახალისო ელემენტი, როგორიცაა მიმები.</h3>
+        <h1>რატომ უნდა ითამაშო ეს თამაში?</h1>
+        <h3>ეს თამაში გაგახალისებს და მოგიყვანს უამრავ ახალ თავგადასავალში. </h3>
+        <h3>მისი მიმებითა და სხვა სასიამოვნო ელემენტებით, იგი ნამდვილად გააუმჯობესებს განწყობას.</h3>
+    </div>
+    <br>
+
+    <div style="text-align: center;">
+    <h1 class="k3">ჯერ კიდე არ გითამაშია?</h1>
+
+        <div class="k1">
+            <button class="first" onclick="click1()">კი</button> 
+            <button class="secend" onclick="click2()">არა</button>
+        </div>
+
+
+
+
+
+        <h1 class="k2"></h1>
+
+        <div class="k4">
+            <button class="k5">კი</button>
+            <button class="k6">არა</button>
+        </div>
+        <h1 class="k7"></h1>
+        
+
+        <button class="k8">თამაშის დაწყება</button>
+    </div>
+
+
+    <script>
+        let big = document.querySelector(".k1")
+        let h1 = document.querySelector(".k2")
+        let k3 = document.querySelector(".k3")
+        let k4 = document.querySelector(".k4")
+
+        let k5 = document.querySelector(".k5")
+        let k6 = document.querySelector(".k6")
+
+        let k7 = document.querySelector(".k7")
+
+        let k8 = document.querySelector(".k8")
+
+        function click1() {
+            big.style.display = "none"
+            h1.innerHTML = "მოგეწონა?"
+            k3.style.display = "none"
+            k4.style.display = "block"
+            k4.style.display = "flex"
+            k4.style.gap = "150px"
+            k4.style.justifyContent = "center"
+            k4.style.alignItems = "center"
+        }
+
+        k5.addEventListener("click" , function() {
+            k7.innerHTML = "მადლობა მოტივაციისთვის"
+        })
+
+        function click2() {
+            big.style.display ="none" 
+            k8.style.display="block"
+        }
+
+        k8.addEventListener("click", function() {
+            window.location.href="1Level.html"
+        })
+    </script>
+</body>
+</html>
