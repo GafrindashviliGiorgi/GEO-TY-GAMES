@@ -3,108 +3,717 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zipline</title>
+    <title>Zipline - ბარბერშოპი თამაში</title>
     <style>
         body {
-            margin: 0px;
-            background-color: lightblue;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to bottom, #87CEEB, #5f9ea0);
+            min-height: 100vh;
+            color: #333;
         }
+
         .Name {
-            background-color: #5c5656;
+            background: linear-gradient(to right, #3a3636, #5c5656, #3a3636);
             width: 90%;
-            height: 150px;
-            display: block;
-            margin: 0 auto;
+            max-width: 1200px;
+            height: 120px;
+            margin: 20px auto;
             text-align: center;
             color: white;
-            font-size: 35px;
-            font-family: 'Courier New', Courier, monospace;
-            border-radius: 25px;
-            position: relative;
-            bottom: 30px;
-            margin-left: 75px;
-            display: block;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
+
+        .Name h1 {
+            font-size: 42px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .full {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: center;
+        }
+
         .container {
-            background-color: rgb(218, 208, 208);
-            width: 300px;
+            background-color: #f5f5f5;
+            width: 340px;
             height: 530px;
-            margin-left: 75px;
-            border-radius: 25px;
-            margin-top: 30px;
-            position: absolute;
-            top: 150px;
-            text-align: center;
+            border-radius: 15px;
             overflow: auto;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
         }
+
+        .kiko {
+            color: #333;
+            font-size: 24px;
+            padding: 15px 0;
+            margin: 0;
+            text-align: center;
+        }
+
+        .container hr {
+            border: none;
+            height: 2px;
+            background-color: #ddd;
+            margin: 0 15px 15px;
+        }
+
+        .bifDiv {
+            padding: 0 10px;
+            max-height: 430px;
+            overflow-y: auto;
+        }
+
+        .constumers {
+            margin-bottom: 15px;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
         .k1 {
             background-color: white;
             width: 95%;
-            height: 80px;
-            border: 1px solid black;
+            height: 100px;
+            border: 1px solid #e0e0e0;
             margin: 0 auto;
-            border-radius: 20px;
-            display: block;
-            margin-top: 5px;
-        }
-        .k1 p {
-            font-size: 20px;
-        }
-        .cuts {
-            background-color: rgb(93, 86, 86);
-            width: 1000px;
-            height: 517px;
-            margin-left: 450px;
+            border-radius: 12px;
+            padding: 12px;
             position: relative;
-            bottom: 10px;
-            border-radius: 20px;
-            border: 2px solid black;
-            box-shadow: 0 0 20px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: all 0.2s ease;
+        }
+
+        .k1:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-color: #ccc;
+        }
+
+        .k1 p {
+            font-size: 22px;
+            font-weight: bold;
+            margin: 0 0 5px 0;
+            color: #333;
+        }
+
+        .k1 h1 {
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 18px;
+            margin: 0;
+            color: #666;
+            position: relative;
+        }
+
+        .ku1 {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            height: 40px;
+            width: 120px;
+            background: linear-gradient(to right, #4a6bff, #2541b8);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .ku1:hover {
+            background: linear-gradient(to right, #2541b8, #1a307a);
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .ku1:active {
+            transform: scale(0.98);
+        }
+
+        .cuts {
+            background: linear-gradient(to bottom, #666, #444);
+            width: 600px;
+            height: 530px;
+            margin-left: 40px;
+            border-radius: 15px;
+            border: none;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            color: white;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Game element styling */
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            background-color: rgba(0,0,0,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .barber-area {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0,0,0,0.1);
+            border-radius: 10px;
+            padding: 20px;
+            position: relative;
+        }
+
+        .barber {
+            width: 100px;
+            height: 100px;
+            background-color: #3498db;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 14px;
+            color: white;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .barber::before {
+            content: "✂️";
+            font-size: 24px;
+            position: absolute;
+            top: -25px;
+        }
+
+        .current-customer {
+            background-color: rgba(255,255,255,0.9);
+            color: #333;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            width: 80%;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .customer-name {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .customer-style {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .timer {
+            background-color: #f39c12;
+            width: 100%;
+            height: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .timer-bar {
+            position: absolute;
+            height: 100%;
+            background-color: #2ecc71;
+            width: 100%;
+            left: 0;
+            top: 0;
+            transition: width 0.1s linear;
+        }
+
+        .game-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .game-button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .cut-button {
+            background-color: #2ecc71;
+            color: white;
+        }
+
+        .cut-button:hover {
+            background-color: #27ae60;
+            transform: scale(1.05);
+        }
+
+        .skip-button {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .skip-button:hover {
+            background-color: #c0392b;
+            transform: scale(1.05);
+        }
+
+        .status-message {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 20px;
+            color: #333;
+        }
+
+        .game-controls {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .level-display {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .start-button, .upgrade-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .start-button {
+            background-color: #2ecc71;
+            color: white;
+        }
+
+        .start-button:hover {
+            background-color: #27ae60;
+        }
+
+        .upgrade-button {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .upgrade-button:hover {
+            background-color: #2980b9;
+        }
+
+        /* Responsive design */
+        @media (max-width: 1200px) {
+            .full {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .container, .cuts {
+                width: 90%;
+                max-width: 600px;
+                margin: 20px auto;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .Name {
+                width: 95%;
+                height: 100px;
+            }
+            
+            .Name h1 {
+                font-size: 32px;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 10px;
+            }
         }
     </style>
 </head>
 <body>
-    <div style="display: block; margin: 0px;">
+    <div class="page-container">
         <div class="Name">
-            <h1 style="position: relative; top: 30px;">Zipline</h1>
+            <h1>Zipline ბარბერშოპი</h1>
         </div>
-
-        <div class="full" style="display: flex;">
-            <div style="display: flex; gap: 40px;">
-                <div class="container">
-                    <h1>კლიენტების ცხრილი</h1>
-                    <hr>
-    
-                    <div class="bifDiv">
-  
+        
+        <div class="full">
+            <div class="container">
+                <h1 class="kiko">კლიენტების რიგი</h1>
+                <hr>
+                <div class="bifDiv">
+                </div>
+            </div>
+            
+            <div class="cuts">
+                <div class="game-info">
+                    <div class="stats">
+                        <div class="stat">
+                            <div class="stat-value" id="score">0</div>
+                            <div class="stat-label">ქულა</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value" id="money">0₾</div>
+                            <div class="stat-label">შემოსავალი</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value" id="level">1</div>
+                            <div class="stat-label">დონე</div>
+                        </div>
                     </div>
                 </div>
-
-                <div class="cuts">
-    
+                
+                <div class="barber-area">
+                    <div class="barber">ბარბერი</div>
+                    <div class="current-customer" id="current-customer">
+                        <div class="customer-name">კლიენტის სახელი</div>
+                        <div class="customer-style">თმის ვარცხნილობა</div>
+                        <div class="timer">
+                            <div class="timer-bar" id="timer-bar"></div>
+                        </div>
+                    </div>
+                    <div class="game-buttons">
+                        <button class="game-button cut-button" id="cut-button">მოკვეცე ✂️</button>
+                        <button class="game-button skip-button" id="skip-button">გამოტოვე ❌</button>
+                    </div>
                 </div>
+                
+                <div class="level-display">
+                    <div>სიჩქარე: <span id="speed-level">1</span></div>
+                    <div class="action-buttons">
+                        <button class="start-button" id="start-button">დაწყება</button>
+                        <button class="upgrade-button" id="upgrade-button">გაუმჯობესება (50₾)</button>
+                    </div>
+                </div>
+            </div>
         </div>
-      
 
-        </div>
-
-
-
-
-        <div>
-
-
-        </div>
+        <div class="status-message" id="status-message">დააჭირეთ "დაწყება" ღილაკს თამაშის დასაწყებად!</div>
     </div>
 
-    <h1 style="text-align: center;">თამაში ჯერ არ გაკეთებულა</h1>
+    <script>
+
+        const georgianNames = [
+            "გიორგი", "ნიკა", "დავით", "ლუკა", "სანდრო", 
+            "ლევან", "ირაკლი", "ზურა", "თორნიკე", "ბექა",
+            "ანდრია", "ვახო", "მიხო", "გოგა", "შოთა"
+        ];
+
+        const haircutStyles = [
+            {name: "buzz cut", price: 20},
+            {name: "fade", price: 30},
+            {name: "undercut", price: 25},
+            {name: "crew cut", price: 25},
+            {name: "classic cut", price: 35}
+        ];
+
+        let score = 0;
+        let money = 0;
+        let level = 1;
+        let speedLevel = 1;
+        let gameActive = false;
+        let currentCustomer = null;
+        let customersWaiting = [];
+        let timerInterval = null;
+        let timeRemaining = 0;
+        let baseTime = 10; 
+
+        const bifDiv = document.querySelector(".bifDiv");
+        const currentCustomerElement = document.getElementById("current-customer");
+        const timerBar = document.getElementById("timer-bar");
+        const scoreElement = document.getElementById("score");
+        const moneyElement = document.getElementById("money");
+        const levelElement = document.getElementById("level");
+        const speedLevelElement = document.getElementById("speed-level");
+        const startButton = document.getElementById("start-button");
+        const upgradeButton = document.getElementById("upgrade-button");
+        const cutButton = document.getElementById("cut-button");
+        const skipButton = document.getElementById("skip-button");
+        const statusMessage = document.getElementById("status-message");
+
+        function generateRandomCustomer() {
+            const randomName = georgianNames[Math.floor(Math.random() * georgianNames.length)];
+            const randomStyle = haircutStyles[Math.floor(Math.random() * haircutStyles.length)];
+            
+            return {
+                name: randomName,
+                style: randomStyle.name,
+                price: randomStyle.price,
+                patience: Math.random() * 0.4 + 0.8 
+            };
+        }
+
+        function addCustomerToWaitingList(customer) {
+            customersWaiting.push(customer);
+            updateWaitingList();
+        }
+
+        function updateWaitingList() {
+            bifDiv.innerHTML = '';
+            
+            customersWaiting.forEach((customer, index) => {
+                const customerHtml = `
+                <div class="constumers" data-index="${index}">
+                    <div class="k1">
+                        <p>${customer.name}</p>
+                        <h1>${customer.style}</h1>
+                        <button class="ku1" disabled>რიგში</button>
+                    </div>
+                </div>`;
+                
+                bifDiv.innerHTML += customerHtml;
+            });
+        }
+
+        function setCurrentCustomer(customer) {
+            currentCustomer = customer;
+            
+            if(customer) {
+                currentCustomerElement.querySelector(".customer-name").textContent = customer.name;
+                currentCustomerElement.querySelector(".customer-style").textContent = customer.style;
+                
+                timeRemaining = baseTime * customer.patience / speedLevel;
+                timerBar.style.width = "100%";
+                
+                clearInterval(timerInterval);
+                timerInterval = setInterval(updateTimer, 100);
+                
+                currentCustomerElement.style.display = "block";
+            } else {
+                currentCustomerElement.style.display = "none";
+                clearInterval(timerInterval);
+            }
+        }
+
+        function updateTimer() {
+            if(!gameActive) return;
+            
+            timeRemaining -= 0.1;
+            const percentage = (timeRemaining / (baseTime * currentCustomer.patience / speedLevel)) * 100;
+            timerBar.style.width = `${percentage}%`;
+            
+            if(percentage > 60) {
+                timerBar.style.backgroundColor = "#2ecc71"; 
+            } else if(percentage > 30) {
+                timerBar.style.backgroundColor = "#f39c12";
+            } else {
+                timerBar.style.backgroundColor = "#e74c3c";
+            }
+            
+            if(timeRemaining <= 0) {
+                clearInterval(timerInterval);
+                customerLeft();
+            }
+        }
 
 
+        function serveCustomer() {
+            if(!currentCustomer || !gameActive) return;
+            
+ 
+            const timeBonus = Math.floor((timeRemaining / baseTime) * 10);
+            const pointsEarned = 10 + timeBonus;
+            score += pointsEarned;
+            money += currentCustomer.price;
+            
+      
+            scoreElement.textContent = score;
+            moneyElement.textContent = `${money}₾`;
+            
+
+            showStatusMessage(`+${pointsEarned} ქულა! +${currentCustomer.price}₾`, "#2ecc71");
+            
+     
+            checkLevelUp();
+            
+  
+            nextCustomer();
+        }
 
 
-    <script src="zipper.js"></script>
+        function customerLeft() {
+            if(!gameActive) return;
+            
+
+            score = Math.max(0, score - 5);
+            scoreElement.textContent = score;
+            
+
+            showStatusMessage("კლიენტი წავიდა! -5 ქულა", "#e74c3c");
+            
+    
+            nextCustomer();
+        }
 
 
+        function skipCustomer() {
+            if(!currentCustomer || !gameActive) return;
+            
+        
+            score = Math.max(0, score - 2);
+            scoreElement.textContent = score;
+            
+       
+            showStatusMessage("კლიენტი გამოტოვებულია! -2 ქულა", "#f39c12");
+            
+           
+            nextCustomer();
+        }
 
+   
+        function nextCustomer() {
+            clearInterval(timerInterval);
+            
+            if(customersWaiting.length > 0) {
+      
+                const nextCustomer = customersWaiting.shift();
+                setCurrentCustomer(nextCustomer);
+                updateWaitingList();
+            } else {
+                setCurrentCustomer(null);
+                
+                setTimeout(() => {
+                    if(gameActive) {
+                        const newCustomer = generateRandomCustomer();
+                        setCurrentCustomer(newCustomer);
+                    }
+                }, 2000);
+            }
+        }
+
+        function checkLevelUp() {
+            const requiredScore = level * 50;
+            
+            if(score >= requiredScore) {
+                level++;
+                levelElement.textContent = level;
+                
+  
+                baseTime = Math.max(3, 10 - (level * 0.5));
+                
+                showStatusMessage(`დონე ${level} მიღწეულია!`, "#3498db");
+            }
+        }
+
+
+        function showStatusMessage(message, color) {
+            statusMessage.textContent = message;
+            statusMessage.style.color = color;
+
+            setTimeout(() => {
+                statusMessage.textContent = gameActive ? "თამაში მიმდინარეობს..." : "დააჭირეთ \"დაწყება\" ღილაკს თამაშის დასაწყებად!";
+                statusMessage.style.color = "#333";
+            }, 2000);
+        }
+
+
+        function startGame() {
+            if(gameActive) return;
+            
+            gameActive = true;
+            startButton.textContent = "დაწყებულია";
+            showStatusMessage("თამაში დაიწყო!", "#2ecc71");
+            
+
+            for(let i = 0; i < 3; i++) {
+                addCustomerToWaitingList(generateRandomCustomer());
+            }
+
+            nextCustomer();
+            
+
+            startCustomerGeneration();
+        }
+
+
+        function startCustomerGeneration() {
+            setInterval(() => {
+                if(gameActive && customersWaiting.length < 5 && Math.random() < 0.3) {
+                    addCustomerToWaitingList(generateRandomCustomer());
+                }
+            }, 3000);
+        }
+
+
+        function upgradeSpeed() {
+            const upgradeCost = 50;
+            
+            if(money >= upgradeCost) {
+                money -= upgradeCost;
+                speedLevel += 0.5;
+                
+                moneyElement.textContent = `${money}₾`;
+                speedLevelElement.textContent = speedLevel.toFixed(1);
+                showStatusMessage(`სიჩქარე გაუმჯობესდა: ${speedLevel.toFixed(1)}x`, "#3498db");
+            } else {
+                showStatusMessage("საკმარისი თანხა არ გაქვთ!", "#e74c3c");
+            }
+        }
+
+
+        startButton.addEventListener("click", startGame);
+        upgradeButton.addEventListener("click", upgradeSpeed);
+        cutButton.addEventListener("click", serveCustomer);
+        skipButton.addEventListener("click", skipCustomer);
+    </script>
 </body>
 </html>

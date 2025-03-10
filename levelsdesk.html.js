@@ -37,7 +37,6 @@ x.forEach((item) => {
             <div style="position: relative; top: 10px; font-size: 10px; text-align: center;">
                 <h3>${item.h3}</h3>
                 <p>${item.p}</p>
-
             </div>
             <button class="ku"><a href=${item.link}>გადასვლა</a></button>
         </div>`

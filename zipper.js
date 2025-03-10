@@ -1,104 +1,78 @@
+// List of Georgian names to use randomly
+const georgianNames = [
+    "გიორგი", "ნიკა", "დავით", "ლუკა", "სანდრო", 
+    "ლევან", "ირაკლი", "ზურა", "თორნიკე", "ბექა"
+];
+
+// Different haircut styles
+const haircutStyles = [
+    "buzz cut", "fade", "undercut", "crew cut", "classic cut"
+];
+
+// Function to generate a random customer
+function generateRandomCustomer() {
+    const randomName = georgianNames[Math.floor(Math.random() * georgianNames.length)];
+    const randomStyle = haircutStyles[Math.floor(Math.random() * haircutStyles.length)];
+    
+    return {
+        name: randomName,
+        style: randomStyle
+    };
+}
+
+// Function to add a customer to the list
+function addCustomer(customer) {
+    const bigDiv = document.querySelector(".bifDiv");
+    
+    const customerHtml = `
+    <div class="constumers">
+        <div class="k1">
+            <p>${customer.name}</p>
+            <h1>${customer.style}</h1>
+            <button class="ku1">კრიჭი კრიჭი</button>
+        </div>
+    </div>`;
+    
+    bigDiv.innerHTML += customerHtml;
+    
+    // Add event listeners to the new buttons
+    const allButtons = document.querySelectorAll('.ku1');
+    const latestButton = allButtons[allButtons.length - 1];
+    
+    latestButton.addEventListener('click', function() {
+        this.closest('.constumers').remove();
+    });
+}
+
+// Generate customers at random intervals
 setInterval(() => {
-
-    let randomPeople = Math.round(Math.random()*10) +1
-    let bigDiv = document.querySelector(".bifDiv")
-    console.log(randomPeople);
+    // Generate 1-3 random customers at a time
+    const randomPeople = Math.floor(Math.random() * 3) + 1;
     
-    if(randomPeople == 1) {
-        bigDiv.innerHTML += `<div class="constumers">
-    <div  class="k1">
-        <p>გიორგი</p>
-                <h1 style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position: relative; bottom: 23px;">buzz cut</h1>
-
-    </div>
-    </div>`
+    for (let i = 0; i < randomPeople; i++) {
+        const customer = generateRandomCustomer();
+        addCustomer(customer);
     }
-    if(randomPeople == 2) {
-        bigDiv.innerHTML += `<div class="constumers">
-    <div  class="k1">
-        <p>გიორგი</p>
-                <h1 style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position: relative; bottom: 23px;">buzz cut</h1>
-
-    </div>
-    </div>`
     
-    }if(randomPeople == 3) {
-        bigDiv.innerHTML += `<div class="constumers">
-    <div  class="k1">
-        <p>გიორგი</p>
-                <h1 style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position: relative; bottom: 23px;">buzz cut</h1>
-
-    </div>
-    </div>`
+    // Log the number of customers added
+    console.log(`Added ${randomPeople} new customers`);
     
-    }if(randomPeople == 4) {
-        bigDiv.innerHTML += `<div class="constumers">
-    <div  class="k1">
-        <p>გიორგი</p>
-                <h1 style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position: relative; bottom: 23px;">buzz cut</h1>
-
-    </div>
-    </div>`
-    
-    }if(randomPeople == 5) {
-    
-        bigDiv.innerHTML += `<div class="constumers">
-    <div  class="k1">
-        <p>გიორგი</p>
-                <h1 style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position: relative; bottom: 23px;">buzz cut</h1>
-
-    </div>
-    </div>`
-    }if(randomPeople == 6) {
-        bigDiv.innerHTML += `<div class="constumers">
-    <div  class="k1">
-        <p>გიორგი</p>
-                <h1 style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position: relative; bottom: 23px;">buzz cut</h1>
-
-    </div>
-    </div>`
-    
-    }if(randomPeople == 7) {
-        bigDiv.innerHTML += `<div class="constumers">
-    <div  class="k1">
-        <p>გიორგი</p>
-                <h1 style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position: relative; bottom: 23px;">buzz cut</h1>
-
-    </div>
-    </div>`
-    
-    }if(randomPeople == 8) {
-    
-        bigDiv.innerHTML += `<div class="constumers">
-    <div  class="k1">
-        <p>გიორგი</p>
-                <h1 style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position: relative; bottom: 23px;">buzz cut</h1>
-
-    </div>
-    </div>`
-    }if(randomPeople == 9) {
-    
-        bigDiv.innerHTML += `<div class="constumers">
-    <div  class="k1">
-        <p>გიორგი</p>
-                <h1 style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position: relative; bottom: 23px;">buzz cut</h1>
-
-    </div>
-    </div>`
-    }if(randomPeople == 10) {
-    
-        bigDiv.innerHTML += `<div class="constumers">
-    <div  class="k1">
-        <p>გიორგი</p>
-                <h1 style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position: relative; bottom: 23px;">buzz cut</h1>
-    </div>
-    </div>`
-    }if(randomPeople == 11) {
-        bigDiv.innerHTML += `<div class="constumers">
-    <div  class="k1">
-        <p>გიორგი</p>
-                <h1 style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; position: relative; bottom: 23px;">buzz cut</h1>
-    </div>
-    </div>`
+    // Limit the number of customers in the list to prevent performance issues
+    const customerElements = document.querySelectorAll('.constumers');
+    if (customerElements.length > 20) {
+        // Remove the oldest customers when the list gets too long
+        for (let i = 0; i < randomPeople; i++) {
+            if (customerElements[i]) {
+                customerElements[i].remove();
+            }
+        }
     }
-}, 2000);
+}, 3000);
+
+// Add some initial customers when the page loads
+window.addEventListener('DOMContentLoaded', () => {
+    for (let i = 0; i < 5; i++) {
+        const customer = generateRandomCustomer();
+        addCustomer(customer);
+    }
+});
