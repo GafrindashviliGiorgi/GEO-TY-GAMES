@@ -357,37 +357,99 @@
 
         .upgrade-button:hover {
             background-color: #2980b9;
-        }
+        }@media (max-width: 1200px) {
+    .full {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .container, .cuts {
+        width: 90%;
+        max-width: 600px;
+        margin: 15px auto;
+    }
 
-        /* Responsive design */
-        @media (max-width: 1200px) {
-            .full {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .container, .cuts {
-                width: 90%;
-                max-width: 600px;
-                margin: 20px auto;
-            }
-        }
+    .cuts {
+        height: auto;
+        padding: 15px;
+    }
+}
 
-        @media (max-width: 600px) {
-            .Name {
-                width: 95%;
-                height: 100px;
-            }
-            
-            .Name h1 {
-                font-size: 32px;
-            }
-            
-            .stats {
-                flex-direction: column;
-                gap: 10px;
-            }
-        }
+@media (max-width: 768px) {
+    .Name {
+        width: 95%;
+        height: 90px;
+    }
+
+    .Name h1 {
+        font-size: 28px;
+    }
+
+    .container, .cuts {
+        width: 95%;
+    }
+
+    .k1 {
+        height: auto;
+        padding: 10px;
+    }
+
+    .ku1 {
+        width: 100px;
+        font-size: 14px;
+        height: 35px;
+    }
+
+    .barber {
+        width: 80px;
+        height: 80px;
+        font-size: 12px;
+    }
+
+    .barber::before {
+        font-size: 20px;
+        top: -20px;
+    }
+
+    .customer-name {
+        font-size: 18px;
+    }
+
+    .customer-style {
+        font-size: 14px;
+    }
+
+    .game-button {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+
+    .cut-button, .skip-button {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .Name h1 {
+        font-size: 24px;
+    }
+
+    .stats {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .game-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .game-button {
+        width: 100%;
+    }
+}
+
     </style>
 </head>
 <body>
