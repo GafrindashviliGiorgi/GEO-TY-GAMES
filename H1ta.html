@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IQ გამოწვევა</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .container {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 90%;
+            max-width: 800px;
+            text-align: center;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        
+        .timer {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #2980b9;
+        }
+        
+        .progress-container {
+            width: 100%;
+            height: 10px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            border-radius: 5px;
+            background-color: #3498db;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .level-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        
+        .level-label {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .score-label {
+            font-weight: bold;
+            color: #27ae60;
+        }
+        
+        .game-area {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            min-height: 200px;
+        }
+        
+        .question {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+        
+        .options-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .option {
+            padding: 10px 15px;
+            background-color: #e0e0e0;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-width: 100px;
+        }
+        
+        .option:hover {
+            background-color: #d0d0d0;
+            transform: translateY(-2px);
+        }
+        
+        .pattern-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 0 auto 20px;
+            max-width: 400px;
+        }
+        
+        .pattern-item {
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            min-height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+        }
+        
+        .pattern-question {
+            background-color: #e6f7ff;
+            border: 2px dashed #88ccff;
+        }
+        
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin: 0 auto 20px;
+            max-width: 400px;
+        }
+        
+        .memory-cell {
+            background-color: #3498db;
+            border-radius: 5px;
+            min-height: 80px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .memory-cell.shown {
+            opacity: 1;
+        }
+        
+        .memory-input {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin: 0 auto 20px;
+            max-width: 400px;
+        }
+        
+        .memory-input-cell {
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            min-height: 80px;
+            cursor: pointer;
+        }
+        
+        .memory-input-cell.selected {
+            background-color: #3498db;
+        }
+        
+        .sequence-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .sequence {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .sequence-item {
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px 15px;
+            font-size: 18px;
+        }
+        
+        .sequence-input {
+            width: 100%;
+            max-width: 300px;
+            padding: 10px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        
+        .button:hover {
+            background-color: #2980b9;
+        }
+        
+        .button:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+        }
+        
+        .feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        .feedback.correct {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .feedback.incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .game-over {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f0f8ff;
+            border-radius: 8px;
+            border: 2px solid #3498db;
+            display: none;
+        }
+        
+        .results {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        
+        .restart-button {
+            background-color: #27ae60;
+        }
+        
+        .restart-button:hover {
+            background-color: #219653;
+        }
+        
+        @media (max-width: 600px) {
+            .options-container {
+                flex-direction: column;
+            }
+            
+            .pattern-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .memory-grid, .memory-input {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>IQ გამოწვევა</h1>
+        <div class="timer">დრო: <span id="time">00:00</span></div>
+        <div class="progress-container">
+            <div class="progress-bar" id="progress"></div>
+        </div>
+        <div class="level-info">
+            <div class="level-label">დონე: <span id="level">1</span></div>
+            <div class="score-label">ქულა: <span id="score">0</span></div>
+        </div>
+        <div class="game-area" id="gameArea">
+            <div class="question" id="question"></div>
+            <div id="gameContent"></div>
+            <div id="feedback" class="feedback"></div>
+            <button class="button" id="submitBtn">პასუხი</button>
+        </div>
+        <div class="game-over" id="gameOver">
+            <h2>გამოწვევა დასრულებულია!</h2>
+            <div class="results" id="results"></div>
+            <button class="button restart-button" id="restartBtn">თავიდან ცდა</button>
+        </div>
+    </div>
+
+    <script>
+        const gameState = {
+            level: 1,
+            score: 0,
+            totalLevels: 20,
+            startTime: null,
+            elapsedTime: 0,
+            timer: null,
+            currentPuzzle: null,
+            selectedAnswer: null,
+            memoryGrid: [],
+            inputGrid: [],
+            isShowing: false,
+            correctSequence: []
+        };
+
+        const elements = {
+            level: document.getElementById('level'),
+            score: document.getElementById('score'),
+            progress: document.getElementById('progress'),
+            timer: document.getElementById('time'),
+            question: document.getElementById('question'),
+            gameContent: document.getElementById('gameContent'),
+            submitBtn: document.getElementById('submitBtn'),
+            feedback: document.getElementById('feedback'),
+            gameOver: document.getElementById('gameOver'),
+            results: document.getElementById('results'),
+            restartBtn: document.getElementById('restartBtn'),
+            gameArea: document.getElementById('gameArea')
+        };
+
+        function initGame() {
+            gameState.level = 1;
+            gameState.score = 0;
+            gameState.startTime = new Date();
+            gameState.elapsedTime = 0;
+            
+            updateUI();
+            
+            startTimer();
+            
+            loadLevel();
+        }
+
+        function updateUI() {
+            elements.level.textContent = gameState.level;
+            elements.score.textContent = gameState.score;
+            elements.progress.style.width = `${(gameState.level / gameState.totalLevels) * 100}%`;
+        }
+
+        function startTimer() {
+            clearInterval(gameState.timer);
+            gameState.startTime = new Date();
+            gameState.timer = setInterval(() => {
+                const currentTime = new Date();
+                gameState.elapsedTime = Math.floor((currentTime - gameState.startTime) / 1000);
+                
+                const minutes = Math.floor(gameState.elapsedTime / 60);
+                const seconds = gameState.elapsedTime % 60;
+                
+                elements.timer.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        function loadLevel() {
+            elements.gameContent.innerHTML = '';
+            elements.feedback.textContent = '';
+            elements.feedback.className = 'feedback';
+            elements.submitBtn.disabled = false;
+            
+            let puzzleType;
+            
+            if (gameState.level <= 4) {
+                puzzleType = 'math';
+            } else if (gameState.level <= 8) {
+                puzzleType = 'pattern';
+            } else if (gameState.level <= 12) {
+                puzzleType = 'memory';
+            } else if (gameState.level <= 16) {
+                puzzleType = 'sequence';
+            } else {
+                puzzleType = 'logic';
+            }
+            
+            switch (puzzleType) {
+                case 'math':
+                    generateMathPuzzle();
+                    break;
+                case 'pattern':
+                    generatePatternPuzzle();
+                    break;
+                case 'memory':
+                    generateMemoryPuzzle();
+                    break;
+                case 'sequence':
+                    generateSequencePuzzle();
+                    break;
+                case 'logic':
+                    generateLogicPuzzle();
+                    break;
+            }
+        }
+
+        function generateMathPuzzle() {
+            const difficulty = Math.min(4, gameState.level);
+            let question, answer, options;
+            
+            switch (difficulty) {
+                case 1:
+                    const a = Math.floor(Math.random() * 20) + 10;
+                    const b = Math.floor(Math.random() * 10) + 5;
+                    const operation = Math.random() > 0.5 ? '+' : '-';
+                    
+                    question = `რა არის ${a} ${operation} ${b}?`;
+                    answer = operation === '+' ? a + b : a - b;
+                    break;
+                    
+                case 2:
+                    const x = Math.floor(Math.random() * 12) + 3;
+                    const y = Math.floor(Math.random() * 10) + 2;
+                    const mult = x * y;
+                    
+                    if (Math.random() > 0.5) {
+                        question = `რა არის ${x} × ${y}?`;
+                        answer = mult;
+                    } else {
+                        question = `რა არის ${mult} ÷ ${y}?`;
+                        answer = x;
+                    }
+                    break;
+                    
+                case 3:
+                    const m = Math.floor(Math.random() * 10) + 5;
+                    const n = Math.floor(Math.random() * 10) + 2;
+                    const p = Math.floor(Math.random() * 10) + 3;
+                    
+                    question = `გამოთვალეთ: ${m} + ${n} × ${p}`;
+                    answer = m + (n * p);
+                    break;
+                    
+                case 4:
+                    const q = Math.floor(Math.random() * 20) + 10;
+                    const r = Math.floor(Math.random() * 10) + 5;
+                    const s = Math.floor(Math.random() * 10) + 2;
+                    
+                    question = `გამოთვალეთ: (${q} - ${r}) ÷ ${s}`;
+                    answer = Math.floor((q - r) / s);
+                    break;
+            }
+            
+            options = [answer];
+            
+            while (options.length < 4) {
+                const offset = Math.floor(Math.random() * 10) - 5;
+                const wrongAnswer = answer + offset;
+                
+                if (offset !== 0 && !options.includes(wrongAnswer)) {
+                    options.push(wrongAnswer);
+                }
+            }
+            
+            options = shuffleArray(options);
+            
+            gameState.currentPuzzle = {
+                type: 'math',
+                question: question,
+                answer: answer,
+                options: options
+            };
+            
+            elements.question.textContent = question;
+            
+            const optionsContainer = document.createElement('div');
+            optionsContainer.className = 'options-container';
+            
+            options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                optionElement.textContent = option;
+                optionElement.dataset.value = option;
+                
+                optionElement.addEventListener('click', () => {
+                    document.querySelectorAll('.option').forEach(opt => {
+                        opt.style.backgroundColor = '#e0e0e0';
+                        opt.style.borderColor = '#ccc';
+                    });
+                    
+                    optionElement.style.backgroundColor = '#bde0ff';
+                    optionElement.style.borderColor = '#3498db';
+                    
+                    gameState.selectedAnswer = option;
+                });
+                
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            elements.gameContent.appendChild(optionsContainer);
+        }
+
+        function generatePatternPuzzle() {
+            const difficulty = Math.min(4, gameState.level - 4);
+            let pattern, answer, options;
+            
+            switch (difficulty) {
+                case 1:
+                    const start = Math.floor(Math.random() * 5) + 1;
+                    const increment = Math.floor(Math.random() * 3) + 1;
+                    
+                    pattern = [
+                        start,
+                        start + increment,
+                        start + (increment * 2),
+                        start + (increment * 3),
+                        start + (increment * 4),
+                        start + (increment * 5),
+                        start + (increment * 6),
+                        start + (increment * 7)
+                    ];
+                    
+                    answer = pattern[7];
+                    pattern[7] = '?';
+                    break;
+                    
+                case 2:
+                    const values = [
+                        Math.floor(Math.random() * 5) + 1,
+                        Math.floor(Math.random() * 5) + 6
+                    ];
+                    
+                    pattern = [
+                        values[0],
+                        values[1],
+                        values[0],
+                        values[1],
+                        values[0],
+                        values[1],
+                        values[0],
+                        values[1]
+                    ];
+                    
+                    answer = pattern[7];
+                    pattern[7] = '?';
+                    break;
+                    
+                case 3:
+                    const f1 = Math.floor(Math.random() * 5) + 1;
+                    const f2 = Math.floor(Math.random() * 5) + 1;
+                    
+                    pattern = [f1, f2];
+                    for (let i = 2; i < 8; i++) {
+                        pattern.push(pattern[i-1] + pattern[i-2]);
+                    }
+                    
+                    answer = pattern[7];
+                    pattern[7] = '?';
+                    break;
+                    
+                case 4:
+                    const multStart = Math.floor(Math.random() * 3) + 1;
+                    const multFactor = Math.floor(Math.random() * 2) + 2;
+                    
+                    pattern = [multStart];
+                    for (let i = 1; i < 8; i++) {
+                        pattern.push(pattern[i-1] * multFactor);
+                    }
+                    
+                    answer = pattern[7];
+                    pattern[7] = '?';
+                    break;
+            }
+            
+            options = [answer];
+            
+            while (options.length < 4) {
+                const offset = Math.floor(Math.random() * (answer > 20 ? answer / 2 : 10)) - 5;
+                const wrongAnswer = answer + offset;
+                
+                if (offset !== 0 && !options.includes(wrongAnswer) && wrongAnswer > 0) {
+                    options.push(wrongAnswer);
+                }
+            }
+            
+            options = shuffleArray(options);
+            
+            gameState.currentPuzzle = {
+                type: 'pattern',
+                pattern: pattern,
+                answer: answer,
+                options: options
+            };
+            
+            elements.question.textContent = 'რა რიცხვმა უნდა შეცვალოს კითხვის ნიშანი?';
+            
+            const patternContainer = document.createElement('div');
+            patternContainer.className = 'pattern-container';
+            
+            pattern.forEach((value, index) => {
+                const patternItem = document.createElement('div');
+                patternItem.className = 'pattern-item';
+                if (value === '?') {
+                    patternItem.classList.add('pattern-question');
+                }
+                patternItem.textContent = value;
+                patternContainer.appendChild(patternItem);
+            });
+            
+            elements.gameContent.appendChild(patternContainer);
+            
+            const optionsContainer = document.createElement('div');
+            optionsContainer.className = 'options-container';
+            
+            options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                optionElement.textContent = option;
+                optionElement.dataset.value = option;
+                
+                optionElement.addEventListener('click', () => {
+                    document.querySelectorAll('.option').forEach(opt => {
+                        opt.style.backgroundColor = '#e0e0e0';
+                        opt.style.borderColor = '#ccc';
+                    });
+                    
+                    optionElement.style.backgroundColor = '#bde0ff';
+                    optionElement.style.borderColor = '#3498db';
+                    
+                    gameState.selectedAnswer = parseInt(option);
+                });
+                
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            elements.gameContent.appendChild(optionsContainer);
+        }
+
+        function generateMemoryPuzzle() {
+            const difficulty = Math.min(4, gameState.level - 8);
+            let gridSize, showTime;
+            
+            switch (difficulty) {
+                case 1:
+                    gridSize = 4; 
+                    showTime = 3000; 
+                    break;
+                case 2:
+                    gridSize = 6; 
+                    showTime = 4000; 
+                    break;
+                case 3:
+                    gridSize = 9; 
+                    showTime = 5000; 
+                    break;
+                case 4:
+                    gridSize = 12; 
+                    showTime = 5000; 
+                    break;
+            }
+            
+            gameState.memoryGrid = Array(gridSize).fill(false);
+            const numHighlighted = Math.floor(gridSize / 2);
+            
+            let highlightedCount = 0;
+            while (highlightedCount < numHighlighted) {
+                const randomIndex = Math.floor(Math.random() * gridSize);
+                if (!gameState.memoryGrid[randomIndex]) {
+                    gameState.memoryGrid[randomIndex] = true;
+                    highlightedCount++;
+                }
+            }
+        
+            gameState.inputGrid = Array(gridSize).fill(false);
+            
+            gameState.currentPuzzle = {
+                type: 'memory',
+                grid: gameState.memoryGrid,
+                showTime: showTime
+            };
+            
+            elements.question.textContent = 'დაიმახსოვრეთ ნიმუში, შემდეგ ხელახლა შექმენით იგი.';
+            
+            const memoryGridElement = document.createElement('div');
+            memoryGridElement.className = 'memory-grid';
+            memoryGridElement.style.gridTemplateColumns = `repeat(${Math.ceil(Math.sqrt(gridSize))}, 1fr)`;
+            
+            for (let i = 0; i < gridSize; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'memory-cell';
+                if (gameState.memoryGrid[i]) {
+                    cell.classList.add('shown');
+                }
+                memoryGridElement.appendChild(cell);
+            }
+            
+            elements.gameContent.appendChild(memoryGridElement);
+            elements.submitBtn.disabled = true;
+            
+            gameState.isShowing = true;
+            
+            setTimeout(() => {
+                document.querySelectorAll('.memory-cell').forEach(cell => {
+                    cell.classList.remove('shown');
+                });
+                
+                setTimeout(() => {
+                    memoryGridElement.remove();
+                    
+                    const inputGridElement = document.createElement('div');
+                    inputGridElement.className = 'memory-input';
+                    inputGridElement.style.gridTemplateColumns = `repeat(${Math.ceil(Math.sqrt(gridSize))}, 1fr)`;
+                    
+                    for (let i = 0; i < gridSize; i++) {
+                        const cell = document.createElement('div');
+                        cell.className = 'memory-input-cell';
+                        cell.dataset.index = i;
+                        
+                        cell.addEventListener('click', () => {
+                            gameState.inputGrid[i] = !gameState.inputGrid[i];
+                            cell.classList.toggle('selected', gameState.inputGrid[i]);
+                        });
+                        
+                        inputGridElement.appendChild(cell);
+                    }
+                    
+                    elements.gameContent.appendChild(inputGridElement);
+                    elements.submitBtn.disabled = false;
+                    gameState.isShowing = false;
+                }, 500);
+                
+            }, showTime);
+        }
+
+        function generateSequencePuzzle() {
+            const difficulty = Math.min(4, gameState.level - 12);
+            let sequence, answer;
+            
+            switch (difficulty) {
+                case 1:
+                    const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
+                    const startIndex = Math.floor(Math.random() * 5);
+                    const increment = Math.floor(Math.random() * 2) + 1;
+                    
+                    sequence = [];
+                    for (let i = 0; i < 5; i++) {
+                        sequence.push(letters[startIndex + (i * increment)]);
+                    }
+                    
+                    answer = letters[startIndex + (5 * increment)];
+                    break;
+                    
+                case 2:
+                    const patterns = [
+                        (n) => n * n,
+                        (n) => 2 * n + 1,
+                        (n) => n * n - 1
+                    ];
+                    
+                    const patternFn = patterns[Math.floor(Math.random() * patterns.length)];
+                    const start = Math.floor(Math.random() * 5) + 1;
+                    
+                    sequence = [];
+                    for (let i = 0; i < 5; i++) {
+                        sequence.push(patternFn(start + i));
+                    }
+                    
+                    answer = patternFn(start + 5);
+                    break;
+                    
+                case 3:
+                    const numStart = Math.floor(Math.random() * 10) + 1;
+                    const op1 = Math.floor(Math.random() * 5) + 1;
+                    const op2 = Math.floor(Math.random() * 3) + 1;
+                    
+                    sequence = [numStart];
+                    let current = numStart;
+                    
+                    for (let i = 1; i < 6; i++) {
+                        if (i % 2 === 1) {
+                            current += op1;
+                        } else {
+                            current *= op2;
+                        }
+                        
+                        if (i < 5) {
+                            sequence.push(current);
+                        } else {
+                            answer = current;
+                        }
+                    }
+                    break;
+                    
+                case 4:
+                    const complex = Math.floor(Math.random() * 3);
+                    
+                    if (complex === 0) {
+                        const f1 = Math.floor(Math.random() * 3) + 1;
+                        const f2 = Math.floor(Math.random() * 5) + 2;
+                        sequence = [f1, f2];
+                        
+                        for (let i = 2; i < 5; i++) {
+                            sequence.push(sequence[i-1] + sequence[i-2]);
+                        }
+                        
+                        answer = sequence[3] + sequence[4];
+                    } else if (complex === 1) {
+                        const gStart = Math.floor(Math.random() * 5) + 1;
+                        const multiplier = Math.floor(Math.random() * 2) + 2;
+                        const offset = Math.floor(Math.random() * 3) + 1;
+                        
+                        sequence = [gStart];
+                        let current = gStart;
+                        
+                        for (let i = 1; i < 5; i++) {
+                            current = current * multiplier + offset;
+                            sequence.push(current);
+                        }
+                        
+                        answer = sequence[4] * multiplier + offset;
+                    } else {
+                        const aStart = Math.floor(Math.random() * 10) + 1;
+                        const inc1 = Math.floor(Math.random() * 3) + 1;
+                        const inc2 = Math.floor(Math.random() * 3) + 3;
+                        
+                        sequence = [aStart];
+                        let current = aStart;
+                        let increment = inc1;
+                        
+                        for (let i = 1; i < 6; i++) {
+                            current += increment;
+                            increment = increment === inc1 ? inc2 : inc1;
+                            
+                            if (i < 5) {
+                                sequence.push(current);
+                            } else {
+                                answer = current;
+                            }
+                        }
+                    }
+                    break;
+            }
+            
+            gameState.currentPuzzle = {
+                type: 'sequence',
+                sequence: sequence,
+                answer: answer
+            };
+            
+            elements.question.textContent = 'რა მოდის შემდეგ ამ თანმიმდევრობით?';
+            
+            const sequenceContainer = document.createElement('div');
+            sequenceContainer.className = 'sequence-container';
+            
+            const sequenceElement = document.createElement('div');
+            sequenceElement.className = 'sequence';
+            
+            sequence.forEach((item) => {
+                const sequenceItem = document.createElement('div');
+                sequenceItem.className = 'sequence-item';
+                sequenceItem.textContent = item;
+                sequenceElement.appendChild(sequenceItem);
+            });
+            
+            const sequenceQuestion = document.createElement('div');
+            sequenceQuestion.className = 'sequence            sequence-item pattern-question';
+            sequenceQuestion.textContent = '?';
+            sequenceElement.appendChild(sequenceQuestion);
+            
+            sequenceContainer.appendChild(sequenceElement);
+            elements.gameContent.appendChild(sequenceContainer);
+            
+            const inputElement = document.createElement('input');
+            inputElement.type = 'text';
+            inputElement.className = 'sequence-input';
+            inputElement.placeholder = 'Enter the next item in the sequence';
+            
+            inputElement.addEventListener('input', () => {
+                gameState.selectedAnswer = inputElement.value.trim();
+            });
+            
+            sequenceContainer.appendChild(inputElement);
+        }
+
+        function generateLogicPuzzle() {
+            const difficulty = Math.min(4, gameState.level - 16);
+            let question, answer, options;
+            
+            switch (difficulty) {
+                case 1:
+                    question = "თუ ყველა ბლუპი არის რაზი და ყველა რაზი ზარმაცი, ყველა ბლუპი ნამდვილად ზარმაცია?";
+                    answer = "კი";
+                    options = ["კი", "არა"];
+                    break;
+                    
+                case 2:
+                    question = "ფერმერს ჰყავს 17 ცხვარი და 9-ის გარდა ყველა კვდება. რამდენი ცხვარი დარჩა?";
+                    answer = "9";
+                    options = ["9", "8", "17", "0"];
+                    break;
+                    
+                case 3:
+                  
+                    question = "მე ვლაპარაკობ პირის გარეშე და მესმის ყურის გარეშე. სხეული არ მაქვს, მაგრამ ქარით ვცოცხლობ. რა ვარ მე?";
+                    answer = "ექო";
+                    options = ["ექო", "ჩრდილი", "სასტვენი", "ქარის წისქვილი"];
+                    break;
+                    
+                case 4:
+  
+                    question = "თუ მამალი კვერცხს დებს დახრილ ბეღლის სახურავზე, რომელი გზით გორგავს კვერცხი?";
+                    answer = "მამლები კვერცხებს არ დებენ";
+                    options = ["მარცხნივ", "მარჯვნივ", "მამლები კვერცხებს არ დებენ", "არ გაგორდება"];
+                    break;
+            }
+            
+
+            gameState.currentPuzzle = {
+                type: 'logic',
+                question: question,
+                answer: answer,
+                options: options
+            };
+            
+
+            elements.question.textContent = question;
+            
+    
+            const optionsContainer = document.createElement('div');
+            optionsContainer.className = 'options-container';
+            
+            options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                optionElement.textContent = option;
+                optionElement.dataset.value = option;
+                
+                optionElement.addEventListener('click', () => {
+             
+                    document.querySelectorAll('.option').forEach(opt => {
+                        opt.style.backgroundColor = '#e0e0e0';
+                        opt.style.borderColor = '#ccc';
+                    });
+                    
+
+                    optionElement.style.backgroundColor = '#bde0ff';
+                    optionElement.style.borderColor = '#3498db';
+                    
+                
+                    gameState.selectedAnswer = option;
+                });
+                
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            elements.gameContent.appendChild(optionsContainer);
+        }
+
+   
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+
+        elements.submitBtn.addEventListener('click', () => {
+            if (gameState.isShowing) return;
+            
+            const puzzle = gameState.currentPuzzle;
+            let isCorrect = false;
+            
+            switch (puzzle.type) {
+                case 'math':
+                case 'pattern':
+                case 'logic':
+                    isCorrect = gameState.selectedAnswer === puzzle.answer;
+                    break;
+                    
+                case 'memory':
+                    isCorrect = arraysEqual(gameState.inputGrid, puzzle.grid);
+                    break;
+                    
+                    case 'sequence':
+    isCorrect = gameState.selectedAnswer === (puzzle.answer !== undefined ? puzzle.answer.toString() : "");
+    break;
+            }
+            
+
+            if (isCorrect) {
+                elements.feedback.textContent = 'Correct!';
+                elements.feedback.className = 'feedback correct';
+                gameState.score += 10;
+                
+
+                if (gameState.level < gameState.totalLevels) {
+                    gameState.level++;
+                    loadLevel();
+                } else {
+                    endGame();
+                }
+            } else {
+                elements.feedback.textContent = 'არასწორია! ცადე ახლიდან';
+                elements.feedback.className = 'feedback incorrect';
+            }
+            
+
+            updateUI();
+        });
+
+
+        function arraysEqual(a, b) {
+            if (a.length !== b.length) return false;
+            for (let i = 0; i < a.length; i++) {
+                if (a[i] !== b[i]) return false;
+            }
+            return true;
+        }
+
+
+        function endGame() {
+            clearInterval(gameState.timer);
+            
+ 
+            const finalScore = gameState.score;
+            const timeTaken = gameState.elapsedTime;
+            
+      
+            elements.results.textContent = `You scored ${finalScore} points in ${Math.floor(timeTaken / 60)} minutes and ${timeTaken % 60} seconds. შენ ხარ ჰიტა`;
+            elements.gameOver.style.display = 'block';
+            elements.gameArea.style.display = 'none';
+        }
+
+
+        elements.restartBtn.addEventListener('click', () => {
+            elements.gameOver.style.display = 'none';
+            elements.gameArea.style.display = 'block';
+            initGame();
+        });
+
+  ~
+        initGame();
+    </script>
+</body>
+</html>

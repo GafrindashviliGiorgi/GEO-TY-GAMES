@@ -6,6 +6,7 @@ let x = [
         image:"h1ta.jpg",
         h3:"თამაში H1taზე",
         p:"თამაში სადაც უნდა გამოიყენო შენი IQ, გქქვს მაღალი IQ",
+        link:"H1ta.html"
     }, {
         image:"HungruMan.jpg",
         h3:"თამაშიHungruManებზე ",
