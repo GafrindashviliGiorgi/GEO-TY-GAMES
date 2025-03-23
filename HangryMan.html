@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>საჭმლის თამაში</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: #1e1e2f;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    #game-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+    .food, .enemy {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      background-size: cover;
+      cursor: pointer;
+    }
+    .safe-zone {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background: rgba(0, 255, 0, 0.3);
+      border-radius: 50%;
+    }
+    #timer {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    #stats {
+      font-size: 1.2rem;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="timer">30 წამი</div>
+  <div id="stats">
+    <p>სიცოცხლე: <span id="health">100</span></p>
+    <p>სიჩქარე: <span id="speed">10</span></p>
+    <p>თავდაცვა: <span id="defense">5</span></p>
+    <p>ენერგია: <span id="energy">50</span></p>
+    <p>ძალა: <span id="power">20</span></p>
+  </div>
+  <div id="game-container"></div>
+
+
+
+  <script>
+    const gameContainer = document.getElementById('game-container');
+    const timerElement = document.getElementById('timer');
+    const healthElement = document.getElementById('health');
+    const speedElement = document.getElementById('speed');
+    const defenseElement = document.getElementById('defense');
+    const energyElement = document.getElementById('energy');
+    const powerElement = document.getElementById('power');
+
+    let timeLeft = 30;
+    let health = 100;
+    let speed = 10;
+    let defense = 5;
+    let energy = 50;
+    let power = 20;
+
+    const foodTypes = [
+      { name: 'შაურმა', image: 'result.png', effect: () => health += 20 },
+      { name: 'ხინკალი', image: 'result(2).png', effect: () => speed += 5 },
+      { name: 'ბურგერი', image: 'result (1).png', effect: () => power += 10 }
+    ];
+
+    function playSound(src) {
+      const sound = new Audio('mixkit-hungry-man-eating-2252.wav');
+      sound.play();
+    }
+
+    function spawnFood() {
+      const foodType = foodTypes[Math.floor(Math.random() * foodTypes.length)];
+      const food = document.createElement('div');
+      food.className = 'food';
+      food.style.backgroundImage = `url('${foodType.image}')`;
+      food.style.top = `${Math.random() * 90}vh`;
+      food.style.left = `${Math.random() * 90}vw`;
+      food.addEventListener('click', () => {
+        foodType.effect();
+        updateStats();
+        playSound('eat.mp3');
+        food.remove();
+      });
+      gameContainer.appendChild(food);
+      setTimeout(() => food.remove(), Math.random() * 3000 + 2000);
+      setTimeout(spawnFood, Math.random() * 1000 + 500);
+    }
+
+    function spawnEnemy() {
+      const enemy = document.createElement('div');
+      enemy.className = 'enemy';
+      enemy.style.top = `${Math.random() * 90}vh`;
+      enemy.style.left = `${Math.random() * 90}vw`;
+      enemy.addEventListener('click', () => {
+        health -= 10 - defense;
+        updateStats();
+        playSound('hit.mp3');
+        enemy.remove();
+      });
+      gameContainer.appendChild(enemy);
+      setTimeout(() => enemy.remove(), Math.random() * 5000 + 2000);
+      setTimeout(spawnEnemy, Math.random() * 2000 + 1000);
+    }
+
+    function updateStats() {
+      healthElement.textContent = health;
+      speedElement.textContent = speed;
+      defenseElement.textContent = defense;
+      energyElement.textContent = energy;
+      powerElement.textContent = power;
+      if (health <= 0) endGame();
+    }
+
+    function endGame() {
+      clearInterval(timer);
+      alert(`თამაში დასრულდა! თქვენი სტატისტიკა:\nსიცოცხლე: ${health}\nსიჩქარე: ${speed}\nთავდაცვა: ${defense}\nენერგია: ${energy}\nძალა: ${power}`);
+    }
+
+    const timer = setInterval(() => {
+      timeLeft--;
+      timerElement.textContent = `${timeLeft} წამი`;
+      if (timeLeft <= 0) endGame();
+    }, 1000);
+
+    spawnFood();
+    spawnEnemy();
+
+    setTimeout(() => {
+      audio.muted = false;
+      audio.play();
+  }, 1000);
+
+
+  </script>
+</body>
+</html>

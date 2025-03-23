@@ -5,12 +5,13 @@ let x = [
     {
         image:"h1ta.jpg",
         h3:"თამაში H1taზე",
-        p:"თამაში სადაც უნდა გამოიყენო შენი IQ, გქქვს მაღალი IQ",
+        p:"თამაში სადაც უნდა გამოიყენო შენი IQ, გაქვს მაღალი IQ?",
         link:"H1ta.html"
     }, {
         image:"HungruMan.jpg",
         h3:"თამაშიHungruManებზე ",
         p:"თამაში სადაც უნდა შეჭამო ბევრი ხინკალი",
+        link:'HangryMan.html',
     },{
         image:"NikaTmg.jpg",
         h3:"თამაში Nika tmgზე",
