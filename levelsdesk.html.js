@@ -12,18 +12,12 @@ let x = [
         h3:"თამაშიHungruManებზე ",
         p:"თამაში სადაც უნდა შეჭამო ბევრი ხინკალი",
         link:'HangryMan.html',
-    },{
-        image:"NikaTmg.jpg",
-        h3:"თამაში Nika tmgზე",
-        p:"თამაში სადაც რანდომ რიცხვის გამოცნობაზე გემატება გამომწერები",
-    },{
-        image:"akeb.jpg",
-        h3:"თამაში akebაზე",
-        p:"თამაში სადაც უნდა განავითარო შენი მიზანი",
-    },{
-        image:"NikaDotiashvili.jpg",
-        h3:"თამაში Nika Dotiashvilზე",
-        p:"თამაში სადაც უნდა განავითარო ინგლისური",
+    },
+    ,{
+        image:"Goga.png",
+        h3:"თამაში Goga meliaაზე",
+        p:"თამაში სადაც უნდა გამოიცნო რომელი ნივი უფრო ძვირია",
+        link:"GogaMelia.html"
     },
     {
         image:"Zipper.jpg",

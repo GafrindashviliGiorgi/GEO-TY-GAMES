@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS2 ნივთების ფასების ქვიზი</title>
+    <style>
+        :root {
+            --primary: #ff5722;
+            --secondary: #2196f3;
+            --dark: #1e1e1e;
+            --light: #f5f5f5;
+            --success: #4caf50;
+            --error: #f44336;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            min-height: 100vh;
+            background-image: radial-gradient(circle at center, #333 0%, #111 100%);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .youtuber {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .youtuber img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-right: 15px;
+            border: 3px solid var(--primary);
+        }
+
+        .youtuber-info h3 {
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .youtuber-info p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        .game-area {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .score {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--secondary);
+            font-weight: bold;
+        }
+
+        .question {
+            font-size: 1.5rem;
+            text-align: center;
+            margin-bottom: 30px;
+            line-height: 1.4;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .option {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-size: 1.1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100px;
+        }
+
+        .option:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .option img {
+            max-width: 100px;
+            max-height: 60px;
+            margin-bottom: 10px;
+            object-fit: contain;
+        }
+
+        .next-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            display: block;
+            margin: 0 auto;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .next-btn:hover {
+            background: #e64a19;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .next-btn:active {
+            transform: translateY(0);
+        }
+
+        .next-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result {
+            text-align: center;
+            font-size: 1.2rem;
+            margin: 20px 0;
+            min-height: 30px;
+            font-weight: bold;
+        }
+
+        .correct {
+            color: var(--success);
+        }
+
+        .incorrect {
+            color: var(--error);
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .game-over {
+            text-align: center;
+            display: none;
+        }
+
+        .game-over h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .final-score {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+        }
+
+        .restart-btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .restart-btn:hover {
+            background: #1976d2;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .selected {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(33, 150, 243, 0.7);
+            border-color: var(--secondary);
+        }
+
+        .correct-answer {
+            background-color: rgba(76, 175, 80, 0.3);
+            border-color: var(--success);
+        }
+
+        .wrong-answer {
+            background-color: rgba(244, 67, 54, 0.3);
+            border-color: var(--error);
+        }
+
+        @media (max-width: 600px) {
+            .options {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .question {
+                font-size: 1.2rem;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .pulse {
+            animation: pulse 1s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>CS2 ნივთების ფასების ქვიზი</h1>
+            <div class="youtuber">
+                <img src="https://yt3.googleusercontent.com/ytc/APkrFKZWeMCsx4Q9e_Hm6nhOOUQ3fv96QGUXiMr1-pPP=s176-c-k-c0x00ffffff-no-rj" alt="3kliksphilip">
+                <div class="youtuber-info">
+                    <h3>Goga melia</h3>
+                    <p>თამაში Goga melia-ზე</p>
+                </div>
+            </div>
+        </header>
+
+        <div class="progress-container">
+            <div class="progress-bar" id="progress"></div>
+        </div>
+
+        <div class="game-area">
+            <div class="score" id="score">ქულა: 0/0</div>
+            <div class="question" id="question">მზად ხართ დასაწყებად?</div>
+            <div class="result" id="result"></div>
+            <div class="options" id="options">
+            </div>
+            <button class="next-btn" id="next-btn">დაწყება</button>
+        </div>
+
+        <div class="game-over" id="game-over">
+            <h2>თამაში დასრულდა!</h2>
+            <div class="final-score" id="final-score"></div>
+            <button class="restart-btn" id="restart-btn">თავიდან დაწყება</button>
+        </div>
+    </div>
+
+    <audio id="correct-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3" preload="auto"></audio>
+    <audio id="wrong-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-fail-notification-946.mp3" preload="auto"></audio>
+    <audio id="click-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3" preload="auto"></audio>
+    <audio id="game-over-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3" preload="auto"></audio>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+    const correctSound = document.getElementById('correct-sound');
+    const wrongSound = document.getElementById('wrong-sound');
+    const clickSound = document.getElementById('click-sound');
+    const gameOverSound = document.getElementById('game-over-sound');
+
+    const questionElement = document.getElementById('question');
+    const optionsElement = document.getElementById('options');
+    const nextButton = document.getElementById('next-btn');
+    const resultElement = document.getElementById('result');
+    const scoreElement = document.getElementById('score');
+    const progressBar = document.getElementById('progress');
+    const gameOverElement = document.getElementById('game-over');
+    const finalScoreElement = document.getElementById('final-score');
+    const restartButton = document.getElementById('restart-btn');
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let questions = [];
+    let selectedOption = null;
+    let answerChecked = false;
+
+    const cs2Items = [
+        { name: "AK-47 | ლითონის გულისცემა (Factory New)", price: 1500, image: "https://community.fastly.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpot7HxfDhoyszJemkV4N27q4KHgvLLP7LWnn8fupwi0r6SrYililDk80Y4N27xcNCVcgA4aF3Rrli4kO-6g8C9uZzMymwj5HfIy_JcFQ/330x192" },//--
+        { name: "AWP | დრაკონის ლორე (Factory New)", price: 2500, image: "https://cache.steamanalyst.com/81372b80d19e76a2e89171f911f8a596faea3b1d.png" },
+        { name: "M4A4 | როგორციმია (Factory New)", price: 800, image: "https://community.fastly.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpou-6kejhnwMzFJTwW0863q4yCkP_gfeLVxjsIvMd13-_A89SgjlHm_EpkYmj1LYXGIwE9YAzUrwDox7_q08Si_MOel8T8omw/360fx360f" },//--
+        { name: "★ Karambit | Doppler (Factory New)", price: 20000, image: "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpovbSsLQJf2PLacDBA5ciJlY20k_jkI7fUhFRB4MRij7j--YXygED6qUI9am_1IteTIwQ6M13S_gfoyefpgpXqtZSbyCdivnYq5ynfyUPhhgYMMLJI3Aal3g/360fx360f" },
+        { name: "Desert Eagle | კოზირის მეფე (Factory New)", price: 1200, image: "https://community.fastly.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgposr-kLAtl7PLFTj5Q9c-ilYyHnu3xN4TVl3la18l4jeHVu96l21Xir0ZkZWr1I9KSIwVtZ12Cq1jvxefmjZ607s_MnSQ263Qi4C3D30vgdkp7sm4/330x192" }, //--
+        { name: "USP-S | Kill Confirmed (Factory New)", price: 350, image: "https://community.fastly.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpoo6m1FBRp3_bGcjhQ09-jq5WYh8j_OrfdqWhe5sN4mOTE8bP5gVO8v106NT37LY-cJAZvZF-ErAC7wLi60MO57s7NwSBgvSgksynamEfmiRBJcKUx0nUflmj0/360fx360f" },//--
+        { name: "★ Butterfly Knife | Fade (Factory New)", price: 25000, image: "https://community.fastly.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpovbSsLQJf0ebcZThQ6tCvq4GKqPH1N77ummJW4NE_3erHotSg2wbn-0tkZ2r3d4aUcwE4N1HR_QS_xe7sjZPv7ZzMwHVi7D5iuyh9aKz8BA/330x192" },//--
+        { name: "Glock-18 | Fade (Factory New)", price: 900, image: "https://community.fastly.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgposbaqKAxf0vL3dzxG6eO6nYeDg7n1a-6GkDoC7pMp3rGYpNqiiQ23-UM5ZT-hcIeQJgZsMFvR_lTox7i-m9bi6-pjfulG/360fx360f" },//--
+        { name: "AWP | Asiimov (Field-Tested)", price: 600, image: "https://community.fastly.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpot621FAR17PLfYQJD_9W7m5a0mvLwOq7c2DMBupQn2eqVotqkiwHiqhdlMmigJtOWJwE5Zw3X8wS-yea8jcDo7c7XiSw0g89L9us/330x192" },//--
+        { name: "M4A1-S | Hyper Beast (Factory New)", price: 150, image: "https://community.fastly.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpou-6kejhz2v_Nfz5H_uO1gb-Gw_alDLPIhm5D18d0i_rVyoD8j1yg5UJrNjrwd4SUcQZsZFnR_we3xr3t1pC-uZXMznM37nIr4imMlkOxiRlSLrs4LxeSr5E/360fx360f" }//--
+    ];
+
+    const priceRanges = [
+        { min: 0.5, max: 2 },
+        { min: 0.75, max: 1.5 },
+        { min: 0.6, max: 1.75 },
+        { min: 0.4, max: 2.5 }
+    ];
+
+    function generateQuestions(itemsCount = 10) {
+        const shuffledItems = [...cs2Items].sort(() => Math.random() - 0.5);
+        const questionItems = shuffledItems.slice(0, itemsCount);
+        
+        return questionItems.map(item => {
+            const priceRange = priceRanges[Math.floor(Math.random() * priceRanges.length)];
+            const correctPrice = item.price;
+            
+            const incorrectPrices = [
+                Math.round(correctPrice * priceRange.min),
+                Math.round(correctPrice * priceRange.max),
+                Math.round(correctPrice * (priceRange.min + (priceRange.max - priceRange.min) / 3))
+            ];
+            
+            const allPrices = [correctPrice, ...incorrectPrices].sort(() => Math.random() - 0.5);
+            
+            return {
+                item: item,
+                options: allPrices.map(price => ({ 
+                    price, 
+                    isCorrect: price === correctPrice 
+                }))
+            };
+        });
+    }
+
+    function displayQuestion() {
+        const question = questions[currentQuestionIndex];
+        
+        questionElement.textContent = `რა ღირს ${question.item.name}?`;
+        questionElement.classList.add('fade-in');
+        
+        optionsElement.innerHTML = '';
+        question.options.forEach((option, index) => {
+            const optionElement = document.createElement('div');
+            optionElement.className = 'option fade-in';
+            optionElement.innerHTML = `
+                <img src="${question.item.image}" alt="${question.item.name}">
+                <span>${option.price} ₾</span>
+            `;
+            
+            optionElement.addEventListener('click', () => selectOption(optionElement, option, index));
+            optionsElement.appendChild(optionElement);
+        });
+        
+        resultElement.textContent = '';
+        resultElement.className = 'result';
+        nextButton.disabled = true;
+        nextButton.textContent = 'შემდეგი';
+        
+        progressBar.style.width = `${(currentQuestionIndex / questions.length) * 100}%`;
+        
+        selectedOption = null;
+        answerChecked = false;
+    }
+
+    function selectOption(optionElement, option, index) {
+        if (answerChecked) return;
+        
+        clickSound.play();
+        
+        const options = document.querySelectorAll('.option');
+        options.forEach(opt => opt.classList.remove('selected'));
+        
+        optionElement.classList.add('selected');
+        selectedOption = { element: optionElement, option, index };
+        
+        nextButton.disabled = false;
+    }
+
+    function checkAnswer() {
+        if (!selectedOption || answerChecked) return;
+        
+        answerChecked = true;
+        const { element, option } = selectedOption;
+        
+        const options = document.querySelectorAll('.option');
+        const currentQuestion = questions[currentQuestionIndex];
+        
+        options.forEach((opt, index) => {
+            if (currentQuestion.options[index].isCorrect) {
+                opt.classList.add('correct-answer');
+            }
+        });
+        
+        if (option.isCorrect) {
+            correctSound.play();
+            resultElement.textContent = 'სწორია! +1 ქულა';
+            resultElement.className = 'result correct';
+            score++;
+        } else {
+            wrongSound.play();
+            element.classList.add('wrong-answer');
+            resultElement.textContent = 'არასწორია!';
+            resultElement.className = 'result incorrect';
+        }
+        
+        scoreElement.textContent = `ქულა: ${score}/${currentQuestionIndex + 1}`;
+        
+        nextButton.disabled = false;
+        nextButton.classList.add('pulse');
+    }
+
+    function endGame() {
+        gameOverSound.play();
+        
+        document.querySelector('.game-area').style.display = 'none';
+        gameOverElement.style.display = 'block';
+        gameOverElement.classList.add('fade-in');
+        
+        const percentage = Math.round((score / questions.length) * 100);
+        finalScoreElement.textContent = `თქვენ სწორად უპასუხეთ ${score} კითხვას ${questions.length}-დან (${percentage}%)`;
+        
+        let rating = '';
+        if (percentage >= 90) {
+            rating = 'ბრწყინვალეა! თქვენ ხართ CS2 ეკონომიკის ექსპერტი!';
+        } else if (percentage >= 70) {
+            rating = 'ძალიან კარგია! თქვენ კარგად იცნობთ CS2 ნივთების ფასებს!';
+        } else if (percentage >= 50) {
+            rating = 'არც ისე ცუდია! თქვენ იცით ზოგიერთი ნივთის ფასი.';
+        } else {
+            rating = 'სცადეთ კიდევ ერთხელ! CS2 ნივთების ფასები მუდმივად იცვლება.';
+        }
+        
+        const ratingElement = document.createElement('p');
+        ratingElement.textContent = rating;
+        finalScoreElement.appendChild(document.createElement('br'));
+        finalScoreElement.appendChild(ratingElement);
+    }
+
+    function startGame() {
+        currentQuestionIndex = 0;
+        score = 0;
+        questions = generateQuestions(10);
+        
+        scoreElement.textContent = `ქულა: 0/0`;
+        nextButton.textContent = 'შემდეგი';
+        
+        document.querySelector('.game-area').style.display = 'block';
+        gameOverElement.style.display = 'none';
+        
+        displayQuestion();
+    }
+
+    nextButton.addEventListener('click', () => {
+        
+        if (nextButton.textContent === 'დაწყება') {
+            startGame();
+            return;
+        }
+        
+        if (!answerChecked) {
+            checkAnswer();
+        } else {
+            currentQuestionIndex++;
+            
+            if (currentQuestionIndex < questions.length) {
+                displayQuestion();
+            } else {
+                endGame();
+            }
+        }
+        
+        nextButton.classList.remove('pulse');
+    });
+
+    restartButton.addEventListener('click', () => {
+        clickSound.play();
+        startGame();
+    });
+});
+    </script>
+</body>
+</html>
